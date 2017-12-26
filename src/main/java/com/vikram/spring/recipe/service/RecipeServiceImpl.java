@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.vikram.spring.recipe.domain.Recipe;
 import com.vikram.spring.recipe.repositories.RecipeRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class RecipeServiceImpl implements RecipeService {
 	
 	private final RecipeRepository recipeRepository;

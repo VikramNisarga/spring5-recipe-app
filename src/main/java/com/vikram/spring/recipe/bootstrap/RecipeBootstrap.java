@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.vikram.spring.recipe.domain.Category;
 import com.vikram.spring.recipe.domain.Difficulty;
@@ -18,10 +19,13 @@ import com.vikram.spring.recipe.repositories.CategoryRepository;
 import com.vikram.spring.recipe.repositories.RecipeRepository;
 import com.vikram.spring.recipe.repositories.UnitOfMeasureRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by jt on 6/13/17.
  */
 @Component
+@Slf4j
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
@@ -35,8 +39,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("Loading bootstrap data");
     }
 
     private List<Recipe> getRecipes() {

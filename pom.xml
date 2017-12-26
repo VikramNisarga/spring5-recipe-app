@@ -66,6 +66,29 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${base.dir}/target/classes</additionalClasspathElement>
+					</additionalClasspathElements>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id></id>
+						<phase>verify</phase>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+						<inherited>false</inherited>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
