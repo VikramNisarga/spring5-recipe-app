@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8" />
+<title>Recipe Home</title>
 
-<title>recipe home</title>
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-	crossorigin="anonymous">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+
+<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous"
+	th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<div class="container-fluid" style="margin-top: 20px">
+	<div class="container-fluid" style="margin-top: 20px"
+		type="text/javascript">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-primary">
@@ -29,19 +37,23 @@
 									<tr>
 										<th>ID</th>
 										<th>Description</th>
+										<th>View</th>
 									</tr>
 								</thead>
 								<tr th:remove="all">
-									<td th:text="${recipe.id}">123</td>
-									<td th:text="${recipe.description}">Tasty Goodnees 1</td>
+									<td >123</td>
+									<td >Tasty Goodness 1</td>
+									<td> <a href="#">View</a></td>
 								</tr>
 								<tr th:remove="all">
-									<td th:text="${recipe.id}">12333</td>
-									<td th:text="${recipe.description}">Tasty Goodnees 2</td>
+									<td >12333</td>
+									<td >Tasty Goodness 2</td>
+									<td> <a href="#">View</a></td>
 								</tr>
 								<tr th:each="recipe : ${recipes}">
 									<td th:text="${recipe.id}">334</td>
 									<td th:text="${recipe.description}">Tasty Goodnees 3</td>
+									<td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a>
 								</tr>
 							</table>
 						</div>

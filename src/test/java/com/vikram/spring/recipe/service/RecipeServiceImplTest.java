@@ -1,11 +1,12 @@
 package com.vikram.spring.recipe.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
@@ -19,12 +20,13 @@ import com.vikram.spring.recipe.repositories.RecipeRepository;
 public class RecipeServiceImplTest {
 	@Mock
 	RecipeRepository recipeRepository;
-	private RecipeServiceImpl recipeServiceImpl;
+	private RecipeService recipeService;
+ 
 	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		recipeServiceImpl = new RecipeServiceImpl(recipeRepository);
+		recipeService = new RecipeServiceImpl(recipeRepository);
 	}
 	@Test
 	public void testFindAllRecipes() {
@@ -32,11 +34,19 @@ public class RecipeServiceImplTest {
 		HashSet<Recipe> recipes = new HashSet<>();
 		recipes.add(recipe);
 		
-		when(recipeServiceImpl.findAllRecipes()).thenReturn(recipes);
+		when(recipeService.findAllRecipes()).thenReturn(recipes);
 		
-		Set<Recipe> recipes2 = recipeServiceImpl.findAllRecipes();
+		Set<Recipe> recipes2 = recipeService.findAllRecipes();
 		assertEquals(1, recipes2.size());
 		verify(recipeRepository, times(1)).findAll();
+		
+	}
+	
+	@Test
+	public void testFindRecipeById() throws Exception {
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		Optional<Recipe> recipeOptional = Optional.of(recipe);
 		
 	}
 	
