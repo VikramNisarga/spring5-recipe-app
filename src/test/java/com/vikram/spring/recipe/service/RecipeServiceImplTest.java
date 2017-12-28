@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.vikram.spring.recipe.domain.Recipe;
@@ -47,6 +48,13 @@ public class RecipeServiceImplTest {
 		Recipe recipe = new Recipe();
 		recipe.setId(1L);
 		Optional<Recipe> recipeOptional = Optional.of(recipe);
+		when(recipeRepository.findById(Mockito.anyLong())).thenReturn(recipeOptional);
+		Recipe recipeReturned = recipeService.findRecipeById(1L);
+		assertNotNull(recipeReturned);
+		assertEquals(recipe, recipeReturned);
+		verify(recipeRepository, Mockito.times(1)).findById(Mockito.anyLong());
+		verify(recipeRepository, Mockito.never()).findAll();
+		
 		
 	}
 	
