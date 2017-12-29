@@ -37,7 +37,7 @@ public class RecipeControllerTest {
 	public void testRecipeView() throws Exception {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
-				.andExpect(MockMvcResultMatchers.view().name("show"));
+				.andExpect(MockMvcResultMatchers.view().name("recipe/show"));
 
 	}
 
@@ -46,12 +46,11 @@ public class RecipeControllerTest {
 		Recipe recipe = new Recipe();
 		recipe.setId(1L);
 		ArgumentCaptor<Long> argumentRecipeId = ArgumentCaptor.forClass(Long.class);
-		Mockito.verify(recipeService).findRecipeById(argumentRecipeId.capture());
-
 		ArgumentCaptor<Recipe> argumentCaptorRecipe = ArgumentCaptor.forClass(Recipe.class);
 		Mockito.when(recipeService.findRecipeById(1L)).thenReturn(recipe);
-		assertEquals("show", recipeController.getRecipeById(model));
+		assertEquals("recipe/show", recipeController.getRecipeById(model, 1l));
 		Mockito.verify(model, Mockito.times(1)).addAttribute(Mockito.eq("recipe"), argumentCaptorRecipe.capture());
+		Mockito.verify(recipeService, Mockito.times(1)).findRecipeById(argumentRecipeId.capture());
 		assertEquals(recipe, argumentCaptorRecipe.getValue());
 		assertEquals(new Long(1L), argumentRecipeId.getValue());
 
