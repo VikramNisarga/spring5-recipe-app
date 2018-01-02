@@ -5,7 +5,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.vikram.spring.recipe.commands.RecipeCommand;
+import com.vikram.spring.recipe.converters.RecipeCommandToRecipe;
+import com.vikram.spring.recipe.converters.RecipeToRecipeCommand;
 import com.vikram.spring.recipe.domain.Recipe;
 import com.vikram.spring.recipe.repositories.RecipeRepository;
 
@@ -14,12 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class RecipeServiceImpl implements RecipeService {
-	
-	private final RecipeRepository recipeRepository;
 
-	public RecipeServiceImpl(RecipeRepository recipeRepository) {
+	private final RecipeRepository recipeRepository;
+	private final RecipeCommandToRecipe recipeCommandToRecipe;
+	private final RecipeToRecipeCommand recipeToRecipeCommand;
+
+	public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe,
+			RecipeToRecipeCommand recipeToRecipeCommand) {
 		super();
 		this.recipeRepository = recipeRepository;
+		this.recipeCommandToRecipe = recipeCommandToRecipe;
+		this.recipeToRecipeCommand = recipeToRecipeCommand;
 	}
 
 	@Override
@@ -33,13 +42,21 @@ public class RecipeServiceImpl implements RecipeService {
 	public Recipe findRecipeById(Long id) {
 		// TODO Auto-generated method stub
 		Optional<Recipe> recipe = recipeRepository.findById(id);
-		if(recipe.isPresent()) {
+		if (recipe.isPresent()) {
 			return recipe.get();
 		}
-		throw new RuntimeException("Recipe Not found for id :"+ id);
-		
+		throw new RuntimeException("Recipe Not found for id :" + id);
+
 	}
-	
-	
+
+	@Override
+	@Transactional
+	public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+		Recipe recipeDetached = recipeCommandToRecipe.convert(recipeCommand);
+		Recipe recipeSaved = recipeRepository.save(recipeDetached);
+		log.debug("Recipe saved:" + recipeSaved);
+
+		return recipeToRecipeCommand.convert(recipeSaved);
+	}
 
 }

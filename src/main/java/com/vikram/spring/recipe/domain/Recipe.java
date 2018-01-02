@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @author vikram.nisarga
@@ -26,7 +27,8 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Data
-@EqualsAndHashCode(exclude= {"ingredients","categories","notes"})
+@EqualsAndHashCode(exclude = { "ingredients", "categories", "notes" })
+@ToString(exclude = { "ingredients", "categories", "notes" })
 public class Recipe {
 
 	@Id
@@ -56,8 +58,11 @@ public class Recipe {
 	private Set<Category> categories = new HashSet<>();
 
 	public void setNotes(Notes notes) {
-		this.notes = notes;
-		this.notes.setRecipe(this);
+		if (notes != null) {
+			this.notes = notes;
+			this.notes.setRecipe(this);
+		}
+
 	}
 
 	public Recipe addIngredient(Ingredient ingredient) {

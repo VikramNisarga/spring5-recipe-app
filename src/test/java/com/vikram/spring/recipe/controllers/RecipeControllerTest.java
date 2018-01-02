@@ -8,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.client.MockMvcClientHttpRequestFactory;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -56,4 +57,12 @@ public class RecipeControllerTest {
 
 	}
 
+	@Test
+	public void testNewRecipeForm() throws Exception {
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+		mockMvc.perform(MockMvcRequestBuilders.get("recipe/new"))
+				.andExpect(MockMvcResultMatchers.view().name("recipe/recipeform"))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+
+	}
 }
