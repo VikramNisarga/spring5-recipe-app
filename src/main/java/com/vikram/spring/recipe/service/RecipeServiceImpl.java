@@ -11,6 +11,7 @@ import com.vikram.spring.recipe.commands.RecipeCommand;
 import com.vikram.spring.recipe.converters.RecipeCommandToRecipe;
 import com.vikram.spring.recipe.converters.RecipeToRecipeCommand;
 import com.vikram.spring.recipe.domain.Recipe;
+import com.vikram.spring.recipe.exceptions.NotFoundException;
 import com.vikram.spring.recipe.repositories.RecipeRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class RecipeServiceImpl implements RecipeService {
 		if (recipe.isPresent()) {
 			return recipe.get();
 		}
-		throw new RuntimeException("Recipe Not found for id :" + id);
+		throw new NotFoundException("Recipe Not found for id :" + id);
 
 	}
 
@@ -57,6 +58,18 @@ public class RecipeServiceImpl implements RecipeService {
 		log.debug("Recipe saved:" + recipeSaved);
 
 		return recipeToRecipeCommand.convert(recipeSaved);
+	}
+
+	@Override
+	@Transactional
+	public RecipeCommand findRecipeCommandById(Long id) {
+		return recipeToRecipeCommand.convert(findRecipeById(id));
+	}
+
+	@Override
+	public void deleteRecipeById(Long id) {
+		recipeRepository.deleteById(id);
+		
 	}
 
 }

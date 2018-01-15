@@ -37,7 +37,7 @@ public class RecipeControllerTest {
 	@Test
 	public void testRecipeView() throws Exception {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
 				.andExpect(MockMvcResultMatchers.view().name("recipe/show"));
 
 	}
@@ -60,7 +60,7 @@ public class RecipeControllerTest {
 	@Test
 	public void testNewRecipeForm() throws Exception {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-		mockMvc.perform(MockMvcRequestBuilders.get("recipe/new"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/new"))
 				.andExpect(MockMvcResultMatchers.view().name("recipe/recipeform"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 
